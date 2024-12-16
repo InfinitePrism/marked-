@@ -1,0 +1,28 @@
+# Открываем исходные файлы
+with open('pass.txt', 'r') as pass_file, open('email.txt', 'r') as email_file:
+    passwords = pass_file.readlines()
+    emails = email_file.readlines()
+
+# Проверяем длину списков, чтобы избежать ошибок
+if len(passwords) != len(emails):
+    print("Ошибка: количество строк в файлах email.txt и pass.txt не совпадает!")
+else:
+    # Открываем файлы для записи
+    with open('pass_need_change.txt', 'w') as pass_output, open('email_need_change.txt', 'w') as email_output:
+        for email, password in zip(emails, passwords):
+            email = email.strip()
+            password = password.strip()
+            # Проверяем наличие двоеточия в пароле
+            if ':' in password:
+                pass_output.write(password + '\n')
+                email_output.write(email + '\n')
+
+print("Обработка завершена. Результаты сохранены в pass_need_change.txt и email_need_change.txt.")
+Объяснение:
+Чтение файлов: Открываем email.txt и pass.txt и читаем их построчно.
+Проверка на соответствие: Убедитесь, что оба файла имеют одинаковое количество строк.
+Проверка условий: Если пароль содержит двоеточие (:), записываем:
+Пароль в pass_need_change.txt.
+Соответствующий email в email_need_change.txt.
+Результат: В итоговых файлах строки содержат только те пароли и соответствующие им email, где пароль содержит :.
+Положите оба исходных файла в одну папку с этим скриптом, и результат будет записан в файлы pass_need_change.txt и email_need_change.txt.
